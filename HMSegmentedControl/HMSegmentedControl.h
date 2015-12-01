@@ -14,40 +14,51 @@ typedef void (^IndexChangeBlock)(NSInteger index);
 typedef NSAttributedString *(^HMTitleFormatterBlock)(HMSegmentedControl *segmentedControl, NSString *title, NSUInteger index, BOOL selected);
 
 typedef enum {
-    HMSegmentedControlSelectionStyleTextWidthStripe, // Indicator width will only be as big as the text width
-    HMSegmentedControlSelectionStyleFullWidthStripe, // Indicator width will fill the whole segment
-    HMSegmentedControlSelectionStyleBox, // A rectangle that covers the whole segment
-    HMSegmentedControlSelectionStyleArrow // An arrow in the middle of the segment pointing up or down depending on `HMSegmentedControlSelectionIndicatorLocation`
+  HMSegmentedControlSelectionStyleTextWidthStripe, // Indicator width will only be as big as the text width
+  HMSegmentedControlSelectionStyleFullWidthStripe, // Indicator width will fill the whole segment
+  HMSegmentedControlSelectionStyleBox, // A rectangle that covers the whole segment
+  HMSegmentedControlSelectionStyleArrow, // An arrow in the middle of the segment pointing up or down depending on `HMSegmentedControlSelectionIndicatorLocation`
+  HMSegmentedControlSelectionStyleDot // A dot in the middle of the segmen pointing up or down depending on `HMSegmentedControlSelectionIndicatorLocation`
 } HMSegmentedControlSelectionStyle;
 
 typedef enum {
-    HMSegmentedControlSelectionIndicatorLocationUp,
-    HMSegmentedControlSelectionIndicatorLocationDown,
-	HMSegmentedControlSelectionIndicatorLocationNone // No selection indicator
+  HMSegmentedControlSelectionIndicatorLocationUp,
+  HMSegmentedControlSelectionIndicatorLocationDown,
+  HMSegmentedControlSelectionIndicatorLocationNone // No selection indicator
 } HMSegmentedControlSelectionIndicatorLocation;
 
 typedef enum {
-    HMSegmentedControlSegmentWidthStyleFixed, // Segment width is fixed
-    HMSegmentedControlSegmentWidthStyleDynamic, // Segment width will only be as big as the text width (including inset)
+  HMSegmentedControlSegmentWidthStyleFixed, // Segment width is fixed
+  HMSegmentedControlSegmentWidthStyleDynamic, // Segment width will only be as big as the text width (including inset)
 } HMSegmentedControlSegmentWidthStyle;
 
 typedef NS_OPTIONS(NSInteger, HMSegmentedControlBorderType) {
-    HMSegmentedControlBorderTypeNone = 0,
-    HMSegmentedControlBorderTypeTop = (1 << 0),
-    HMSegmentedControlBorderTypeLeft = (1 << 1),
-    HMSegmentedControlBorderTypeBottom = (1 << 2),
-    HMSegmentedControlBorderTypeRight = (1 << 3)
+  HMSegmentedControlBorderTypeNone = 0,
+  HMSegmentedControlBorderTypeTop = (1 << 0),
+  HMSegmentedControlBorderTypeLeft = (1 << 1),
+  HMSegmentedControlBorderTypeBottom = (1 << 2),
+  HMSegmentedControlBorderTypeRight = (1 << 3)
 };
 
 enum {
-    HMSegmentedControlNoSegment = -1   // Segment index for no selected segment
+  HMSegmentedControlNoSegment = -1   // Segment index for no selected segment
 };
 
 typedef enum {
-    HMSegmentedControlTypeText,
-    HMSegmentedControlTypeImages,
-	HMSegmentedControlTypeTextImages
+  HMSegmentedControlTypeText,
+  HMSegmentedControlTypeImages,
+  HMSegmentedControlTypeTextImages
 } HMSegmentedControlType;
+
+typedef enum {
+  HMSegmentedControlTitleImageLayoutOrientationHorizontal,
+  HMSegmentedControlTitleImageLayoutOrientationVertical,
+} HMSegmentedControlTitleImageLayoutOrientation;
+
+typedef enum {
+  HMSegmentedControlTitleImageLayoutOrderTitleFirst,
+  HMSegmentedControlTitleImageLayoutOrderImageFirst,
+} HMSegmentedControlTitleImageLayoutOrder;
 
 @interface HMSegmentedControl : UIControl
 
@@ -201,9 +212,9 @@ typedef enum {
  When HMSegmentedControlSelectionIndicatorLocationDown is selected, top edge insets are not used
  
  Defaults are top: 0.0f
-             left: 0.0f
-           bottom: 0.0f
-            right: 0.0f
+ left: 0.0f
+ bottom: 0.0f
+ right: 0.0f
  */
 @property (nonatomic, readwrite) UIEdgeInsets selectionIndicatorEdgeInsets;
 
@@ -218,6 +229,16 @@ typedef enum {
  Default is YES. Set to NO to disable animation during user selection.
  */
 @property (nonatomic) BOOL shouldAnimateUserSelection;
+
+/**
+ *  Layout orentation for type of HMSegmentedControlTypeTextImages
+ */
+@property (nonatomic, assign) HMSegmentedControlTitleImageLayoutOrientation titleImageLayoutOrientation;
+
+/**
+ *  Define the layout order of title and image
+ */
+@property (nonatomic, assign) HMSegmentedControlTitleImageLayoutOrder titleImageLayoutOrder;
 
 - (id)initWithSectionTitles:(NSArray *)sectiontitles;
 - (id)initWithSectionImages:(NSArray *)sectionImages sectionSelectedImages:(NSArray *)sectionSelectedImages;

@@ -240,6 +240,11 @@ typedef enum {
  */
 @property (nonatomic, assign) HMSegmentedControlTitleImageLayoutOrder titleImageLayoutOrder;
 
+/**
+ *  Space between title and image
+ */
+@property (nonatomic, assign) CGFloat titleImageSpacing;
+
 - (id)initWithSectionTitles:(NSArray *)sectiontitles;
 - (id)initWithSectionImages:(NSArray *)sectionImages sectionSelectedImages:(NSArray *)sectionSelectedImages;
 - (instancetype)initWithSectionImages:(NSArray *)sectionImages sectionSelectedImages:(NSArray *)sectionSelectedImages titlesForSections:(NSArray *)sectiontitles;

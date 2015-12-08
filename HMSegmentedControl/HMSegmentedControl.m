@@ -163,6 +163,7 @@
   
   self.titleImageLayoutOrientation = HMSegmentedControlTitleImageLayoutOrientationHorizontal;
   self.titleImageLayoutOrder = HMSegmentedControlTitleImageLayoutOrderImageFirst;
+  _titleImageSpacing = 0;
   
   self.contentMode = UIViewContentModeRedraw;
 }
@@ -219,6 +220,10 @@
   [self setNeedsDisplay];
 }
 
+- (void)setTitleImageSpacing:(CGFloat)titleImageSpacing {
+  _titleImageSpacing = titleImageSpacing;
+  [self setNeedsDisplay];
+}
 #pragma mark - Drawing
 
 - (CGSize)measureTitleAtIndex:(NSUInteger)index {
@@ -395,13 +400,13 @@
       
       if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed) {
         if (self.titleImageLayoutOrientation == HMSegmentedControlTitleImageLayoutOrientationHorizontal) {
-          CGFloat xOffset = (self.segmentWidth * idx) + (self.segmentWidth-(stringWidth+imageWidth))/2;
+          CGFloat xOffset = (self.segmentWidth * idx) + (self.segmentWidth-(stringWidth+imageWidth)-self.titleImageSpacing)/2;
           if (self.titleImageLayoutOrder == HMSegmentedControlTitleImageLayoutOrderImageFirst) {
             imageXOffset = xOffset;
-            textXOffset = imageXOffset+imageWidth;
+            textXOffset = imageXOffset+imageWidth+self.titleImageSpacing;
           } else {
             textXOffset = xOffset;
-            imageXOffset = textXOffset+textWidth;
+            imageXOffset = textXOffset+textWidth+self.titleImageSpacing;
           }
           textWidth = stringWidth;
         } else {
@@ -426,10 +431,10 @@
         if (self.titleImageLayoutOrder == HMSegmentedControlTitleImageLayoutOrderImageFirst) {
           if (self.titleImageLayoutOrder == HMSegmentedControlTitleImageLayoutOrderImageFirst) {
             imageXOffset = xOffset;
-            textXOffset = imageXOffset+imageWidth;
+            textXOffset = imageXOffset+imageWidth+self.titleImageSpacing;
           } else {
             textXOffset = xOffset;
-            imageXOffset = textXOffset+textWidth;
+            imageXOffset = textXOffset+textWidth+self.titleImageSpacing;
           }
           textWidth = stringWidth;
         } else {
@@ -446,11 +451,11 @@
         imageYOffset = (CGRectGetHeight(self.frame)-self.selectionIndicatorHeight-imageHeight)/2;
       } else {
         if (self.titleImageLayoutOrder == HMSegmentedControlTitleImageLayoutOrderImageFirst) {
-          imageYOffset = (CGRectGetHeight(self.frame)-self.selectionIndicatorHeight-textHeight-imageHeight)/2;
-          textYOffset= imageYOffset+imageHeight;
+          imageYOffset = (CGRectGetHeight(self.frame)-self.selectionIndicatorHeight-textHeight-imageHeight-self.titleImageSpacing)/2;
+          textYOffset= imageYOffset+imageHeight+self.titleImageSpacing;
         } else {
-          textYOffset = (CGRectGetHeight(self.frame)-self.selectionIndicatorHeight-textHeight-imageHeight)/2;
-          imageYOffset = textYOffset+textHeight;
+          textYOffset = (CGRectGetHeight(self.frame)-self.selectionIndicatorHeight-textHeight-imageHeight-self.titleImageSpacing)/2;
+          imageYOffset = textYOffset+textHeight+self.titleImageSpacing;
         }
       }
       CGRect imageRect = CGRectMake(imageXOffset, imageYOffset, imageWidth, imageHeight);
@@ -621,7 +626,7 @@
     UIImage *sectionImage = [self.sectionImages objectAtIndex:self.selectedSegmentIndex];
     CGFloat imageWidth = sectionImage.size.width;
     if (self.titleImageLayoutOrientation == HMSegmentedControlTitleImageLayoutOrientationHorizontal) {
-      sectionWidth = stringWidth + imageWidth;
+      sectionWidth = stringWidth + imageWidth + self.titleImageSpacing;
     } else {
       sectionWidth = MAX(stringWidth, imageWidth);
     }
@@ -714,7 +719,7 @@
       CGFloat imageWidth = sectionImage.size.width + self.segmentEdgeInset.left;
       CGFloat combineWidth = 0;
       if (self.titleImageLayoutOrientation == HMSegmentedControlTitleImageLayoutOrientationHorizontal) {
-        combineWidth = imageWidth + stringWidth;
+        combineWidth = imageWidth + stringWidth + self.titleImageSpacing;
       } else {
         combineWidth = MAX(imageWidth, stringWidth);
       }
@@ -729,7 +734,7 @@
       CGFloat imageWidth = sectionImage.size.width + self.segmentEdgeInset.left;
       CGFloat combinedWidth = 0;
       if (self.titleImageLayoutOrientation == HMSegmentedControlTitleImageLayoutOrientationHorizontal) {
-        combinedWidth = imageWidth+stringWidth;
+        combinedWidth = imageWidth + stringWidth + self.titleImageSpacing;
       } else {
         combinedWidth = MAX(imageWidth, stringWidth);
       }
